@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PersistentData : MonoBehaviour
 {
-
-    [SerializeField] int playerScore;
-    [SerializeField] string playerName;
+    [SerializeField] private int playerScore;
+    [SerializeField] private string playerName;
+    [SerializeField] public List<HighScore> highScores;
 
     public static PersistentData Instance;
 
@@ -28,7 +28,7 @@ public class PersistentData : MonoBehaviour
     {
         playerScore = 0;
         playerName = "";
-        
+        highScores = new List<HighScore>();
     }
 
     // Update is called once per frame
@@ -57,8 +57,35 @@ public class PersistentData : MonoBehaviour
         return playerScore;
     }
 
+    public void AddHighScore(string name, int score)
+    {
+        highScores.Add(new HighScore(name, score));
+        highScores.Sort();
+        if (highScores.Count > 5)
+        {
+            highScores.RemoveAt(5);
+        }
+    }
 
+    public List<HighScore> GetHighScores()
+    {
+        return highScores;
+    }
 
+    public struct HighScore : System.IComparable<HighScore>
+    {
+        public string name;
+        public int score;
 
+        public HighScore(string name, int score)
+        {
+            this.name = name;
+            this.score = score;
+        }
 
+        public int CompareTo(HighScore other)
+        {
+            return other.score - this.score;
+        }
+    }
 }

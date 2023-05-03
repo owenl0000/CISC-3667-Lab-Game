@@ -13,11 +13,9 @@ public class Score : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelTxt;
     [SerializeField] TextMeshProUGUI nameTxt;
     [SerializeField] int level;
-    private GameManager manager;
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<GameManager>();
         score = PersistentData.Instance.GetScore();
         level = SceneManager.GetActiveScene().buildIndex;
 
@@ -31,7 +29,11 @@ public class Score : MonoBehaviour
     void Update()
     {
         score = PersistentData.Instance.GetScore();
+        name = PersistentData.Instance.GetName();
         level = SceneManager.GetActiveScene().buildIndex;
+        DisplayName();
+        DisplayLevel();
+        DisplayScore();
     }
 
     public void UpdateScore(int addend)
@@ -63,4 +65,5 @@ public class Score : MonoBehaviour
     {
         nameTxt.text = "Hi, " + PersistentData.Instance.GetName();
     }
+
 }

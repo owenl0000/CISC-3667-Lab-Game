@@ -6,7 +6,7 @@ using UnityEngine;
     {
         public float movePower = 10f;
         public float KickBoardMovePower = 15f;
-        public float jumpPower = 20f; //Set Gravity Scale in Rigidbody2D Component to 5
+        private float jumpPower = 30f; //Set Gravity Scale in Rigidbody2D Component to 5
         public float cameraFollowSpeed = 5f;
 
         public Pin pin;

@@ -13,13 +13,13 @@ public class Bird : MonoBehaviour
     private Rigidbody2D rb;
     private float horizontalMovementTimer = 0.0f;
     public AudioClip hawkSound;
-    private GameManager manager; 
+    [SerializeField] GameObject score; 
 
     // Start is called before the first frame update
     void Start()
     {
-        manager = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
+        score = GameObject.FindGameObjectWithTag("Score");
         InvokeRepeating("FlapWings", 0.0f, flapInterval);
         InvokeRepeating("ChangeHorizontalMovement", moveInterval, moveInterval);
     }
@@ -52,7 +52,7 @@ public class Bird : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Pin")) {
             AudioSource.PlayClipAtPoint(hawkSound, transform.position);
-            manager.score -=5;
+            score.GetComponent<Score>().UpdateScore(-5);
             Destroy(gameObject);
         }
         else if(collision.CompareTag("Sky")) {

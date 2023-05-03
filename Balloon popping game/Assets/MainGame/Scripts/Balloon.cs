@@ -17,7 +17,6 @@ public class Balloon : MonoBehaviour
     private Vector3 targetPosition;
     private Rigidbody2D rb;
     private float currentSize = 0.05f;
-    private GameManager manager;
     [SerializeField] GameObject score; 
 
     private float smallSize = 0.05f;
@@ -33,7 +32,6 @@ public class Balloon : MonoBehaviour
     void Start()
     {
         // set the initial target position to the starting position of the balloon
-        manager = FindObjectOfType<GameManager>();
         targetPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         score = GameObject.FindGameObjectWithTag("Score");
@@ -43,11 +41,11 @@ public class Balloon : MonoBehaviour
         {
             case BalloonSize.Small:
                 currentSize = smallSize;
-                sizeIncrease = (mediumSize - smallSize) / manager.sizeIncreaseInterval;
+                sizeIncrease = (mediumSize - smallSize) / GameManager.Instance.sizeIncreaseInterval;
                 break;
             case BalloonSize.Medium:
                 currentSize = mediumSize;
-                sizeIncrease = (largeSize - mediumSize) / manager.sizeIncreaseInterval;
+                sizeIncrease = (largeSize - mediumSize) / GameManager.Instance.sizeIncreaseInterval;
                 break;
             case BalloonSize.Large:
                 currentSize = largeSize;
@@ -78,7 +76,7 @@ public class Balloon : MonoBehaviour
             if (balloonSize == BalloonSize.Small && currentSize >= mediumSize)
             {
                 balloonSize = BalloonSize.Medium;
-                sizeIncrease = (largeSize - mediumSize) / manager.sizeIncreaseInterval;
+                sizeIncrease = (largeSize - mediumSize) / GameManager.Instance.sizeIncreaseInterval;
             }
             else if (balloonSize == BalloonSize.Medium && currentSize >= largeSize)
             {
@@ -111,26 +109,23 @@ public class Balloon : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Pin"))
-    {
-        AudioSource.PlayClipAtPoint(popSound, transform.position);
-
-        switch (balloonSize)
         {
-            case BalloonSize.Small:
-                manager.score += 3;
-                score.GetComponent<Score>().UpdateScore(3);
-                break;
-            case BalloonSize.Medium:
-                manager.score += 2;
-                score.GetComponent<Score>().UpdateScore(2);
-                break;
-            case BalloonSize.Large:
-                manager.score += 1;
-                score.GetComponent<Score>().UpdateScore(1);
-                break;
-        }
-        Destroy(gameObject);
-    }
+            AudioSource.PlayClipAtPoint(popSound, transform.position);
+
+            switch (balloonSize)
+            {
+                case BalloonSize.Small:
+                    score.GetComponent<Score>().UpdateScore(3);
+                    break;
+                case BalloonSize.Medium:
+                    score.GetComponent<Score>().UpdateScore(2);
+                    break;
+                case BalloonSize.Large:
+                    score.GetComponent<Score>().UpdateScore(1);
+                    break;
+            }
+            Destroy(gameObject);
+        }   
         else if (collision.CompareTag("Balloon"))
         {
             // calculate the bounce direction and apply force to the balloon
