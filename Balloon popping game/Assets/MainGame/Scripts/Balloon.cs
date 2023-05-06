@@ -12,7 +12,9 @@ public class Balloon : MonoBehaviour
     public float topLimit = 4.0f; // top limit of the movement
     public float bottomLimit = -4.0f; // bottom limit of the movement
     public float bounceForce = 2.0f;
-    public AudioClip popSound;
+
+    public AudioClip balloonSound;
+    private AudioSource audioSource;
 
     private Vector3 targetPosition;
     private Rigidbody2D rb;
@@ -34,6 +36,7 @@ public class Balloon : MonoBehaviour
         // set the initial target position to the starting position of the balloon
         targetPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         score = GameObject.FindGameObjectWithTag("Score");
         
 
@@ -110,7 +113,7 @@ public class Balloon : MonoBehaviour
     {
         if (collision.CompareTag("Pin"))
         {
-            AudioSource.PlayClipAtPoint(popSound, transform.position);
+            AudioManager.Instance.PlayClip("balloon");
 
             switch (balloonSize)
             {

@@ -12,6 +12,7 @@ public class BalloonSpawner : MonoBehaviour
 
     void Start()
     {
+        balloonRate(GameManager.Instance.difficultyLevel);
         spawnTimer = spawnInterval;
     }
 
@@ -35,5 +36,19 @@ public class BalloonSpawner : MonoBehaviour
 
         // Spawn the balloon at the random position
         Instantiate(balloonPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    public void balloonRate(int level)
+    {
+        float[,] spawnIntervals = new float[3,3] {
+            {2f, 0.5f, 0.5f},
+            {1f, 0.5f, 0.5f},
+            {0.5f, 0.5f, 0.5f}
+        };
+
+        int sceneIndex = GameManager.Instance.currentSceneIndex-1;
+        float thisSpawnInterval = spawnIntervals[sceneIndex, level-1];
+
+       spawnInterval = thisSpawnInterval;
     }
 }

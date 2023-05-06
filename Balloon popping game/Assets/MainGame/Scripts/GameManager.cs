@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI time;
     public GameObject canvas;
     public bool gameStart = false;
+    public int points = 0;
+
+    public int difficultyLevel;
 
     public static GameManager Instance;
     // Start is called before the first frame update
@@ -47,20 +50,26 @@ public class GameManager : MonoBehaviour
             // Update the timer
             timer += Time.deltaTime;
             DisplayTimer();
-
+            points = birdPoints();
             // Check if the game time has elapsed
             if (timer >= gameTime)
             {
-                timer = 0f;
                 currentSceneIndex++;
+                timer = 0f;
+                
                 // Load the next scene
-                if(currentSceneIndex == 1) {
+                if(currentSceneIndex == 2) {
+                    
+                    points = birdPoints();
                     SceneManager.LoadScene(2);
+                    
                 }
-                else if(currentSceneIndex == 2) {
+                else if(currentSceneIndex == 3) {
+                    points = birdPoints();
                     SceneManager.LoadScene(3);
                 }
                 else {
+                    points = 0;
                     EndGame();
                     gameStart = false;
                 }
@@ -89,11 +98,29 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("End");
     }
 
-    public void HideCanvas() {
+    public void HideCanvas() 
+    {
         currentSceneIndex = 0;
         canvas.SetActive(false);
         timer = 0f;
         gameStart = false;
     }
+
+    public int birdPoints()
+    {
+        int[,] pointMatrix = new int[,] {
+            { -5, -10, -15 },
+            { -20, -30, -40 },
+            { -50, -50, -50 }
+        };
+
+        int rowIndex = difficultyLevel - 1;
+        int columnIndex = currentSceneIndex - 1;
+
+        return pointMatrix[rowIndex, columnIndex];
+    }
+
+
+
 
 }

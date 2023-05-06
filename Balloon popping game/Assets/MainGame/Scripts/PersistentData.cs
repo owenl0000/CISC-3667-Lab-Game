@@ -6,6 +6,7 @@ public class PersistentData : MonoBehaviour
 {
     [SerializeField] private int playerScore;
     [SerializeField] private string playerName;
+    [SerializeField] private string playerMode;
     [SerializeField] public List<HighScore> highScores;
 
     public static PersistentData Instance;
@@ -28,6 +29,7 @@ public class PersistentData : MonoBehaviour
     {
         playerScore = 0;
         playerName = "";
+        playerMode = "";
         highScores = new List<HighScore>();
     }
 
@@ -37,6 +39,10 @@ public class PersistentData : MonoBehaviour
         
     }
 
+    public void SetMode(string s) 
+    {
+        playerMode = s;
+    }
     public void SetName(string s)
     {
         playerName = s;
@@ -47,6 +53,10 @@ public class PersistentData : MonoBehaviour
         playerScore = s;
     }
 
+    public string GetMode()
+    {
+        return playerMode;
+    }
     public string GetName()
     {
         return playerName;

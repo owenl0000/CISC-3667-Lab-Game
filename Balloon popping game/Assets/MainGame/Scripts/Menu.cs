@@ -13,10 +13,11 @@ public class Menu : MonoBehaviour
     void Start() {
     }
 
-    public void PlayButton() 
+    public void PlayButton()
     {
         GameManager.Instance.canvas.SetActive(true);
         SceneManager.LoadScene("Level1");
+        GameManager.Instance.currentSceneIndex = 1;
         GameManager.Instance.gameStart = true;
     }
 
@@ -39,6 +40,11 @@ public class Menu : MonoBehaviour
     public void goBack()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void DifficultyScene()
+    {
+        SceneManager.LoadScene("Difficulty");
     }
 
 }

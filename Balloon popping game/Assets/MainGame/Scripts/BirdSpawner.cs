@@ -13,7 +13,7 @@ public class BirdSpawner : MonoBehaviour
 
     void Start()
     {
-        
+        birdRate(GameManager.Instance.difficultyLevel);
         spawnTimer = Random.Range(spr1, spr2);
     }
 
@@ -37,5 +37,18 @@ public class BirdSpawner : MonoBehaviour
 
         // Spawn the balloon at the random position
         Instantiate(birdPrefab, spawnPosition, Quaternion.identity);
+    }
+
+    public void birdRate(int level) {
+        if(level == 2) {
+            spr1 = 1;
+            spr2 = 5;
+        }
+
+        if(level == 3) {
+            spr1 = 1;
+            spr2 = 3;
+        }
+
     }
 }
